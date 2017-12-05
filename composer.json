@@ -9,9 +9,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "doctrine/orm": "^2.6@dev"
-    },
     "autoload": {
         "psr-4": {
             "Crisu83\\Overseer\\": "./src"
