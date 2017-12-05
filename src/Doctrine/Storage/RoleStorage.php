@@ -1,6 +1,7 @@
 <?php namespace Crisu83\Overseer\Doctrine\Storage;
 
-use Crisu83\Overseer\Contract\Role;
+use Crisu83\Overseer\Entity\Role;
+use Crisu83\Overseer\Contract\Role as RoleContract;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -19,17 +20,18 @@ class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
 
     /**
      * @param EntityManager $entityManager
+     * @param string $entityClass
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $entityClass = Role::class)
     {
         $this->entityManager = $entityManager;
-        $this->repository = $this->entityManager->getRepository(Role::class);
+        $this->repository = $this->entityManager->getRepository($entityClass);
     }
 
     /**
      * @inheritdoc
      */
-    public function saveRole(Role $role)
+    public function saveRole(RoleContract $role)
     {
         $this->entityManager->persist($role);
         $this->entityManager->flush($role);
