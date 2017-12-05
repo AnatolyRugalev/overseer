@@ -7,8 +7,8 @@
     <entity name="Crisu83\Overseer\Entity\Permission" table="rbac_permissions">
 
         <id name="name" type="string"/>
-        <field name="resourceName" column="resource_name" type="string" />
-        <field name="rules" type="json_array" />
+        <field name="resourceName" column="resource_name" type="string"/>
+        <field name="rules" type="json_array"/>
 
     </entity>
 

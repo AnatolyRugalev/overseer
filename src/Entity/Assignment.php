@@ -1,8 +1,9 @@
 <?php namespace Crisu83\Overseer\Entity;
 
+use Crisu83\Overseer\Contract\Assignment as AssignmentContract;
 use Crisu83\Overseer\Exception\PropertyNotValid;
 
-class Assignment
+class Assignment implements AssignmentContract
 {
 
     /**
@@ -26,7 +27,7 @@ class Assignment
      *
      * @param string $subjectId
      * @param string $subjectName
-     * @param array  $roles
+     * @param array $roles
      *
      * @throws PropertyNotValid
      */

@@ -1,6 +1,6 @@
 <?php namespace Crisu83\Overseer\Storage;
 
-use Crisu83\Overseer\Entity\Role;
+use Crisu83\Overseer\Contract\Role;
 
 interface RoleStorage
 {

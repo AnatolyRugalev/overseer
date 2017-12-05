@@ -2,9 +2,7 @@
 
 namespace Crisu83\Overseer\Runtime;
 
-use Crisu83\Overseer\Entity\Assignment;
-use Crisu83\Overseer\Entity\Subject;
-use Crisu83\Overseer\Exception\AssignmentNotFound;
+use Crisu83\Overseer\Contract\Assignment;
 
 class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
 {

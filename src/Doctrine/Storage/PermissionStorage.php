@@ -1,6 +1,6 @@
 <?php namespace Crisu83\Overseer\Doctrine\Storage;
 
-use Crisu83\Overseer\Entity\Permission;
+use Crisu83\Overseer\Contract\Permission;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -24,7 +24,7 @@ class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->repository    = $this->entityManager->getRepository(Permission::class);
+        $this->repository = $this->entityManager->getRepository(Permission::class);
     }
 
 

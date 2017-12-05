@@ -1,7 +1,6 @@
 <?php namespace Crisu83\Overseer\Runtime;
 
-use Crisu83\Overseer\Entity\Role;
-use Crisu83\Overseer\Exception\RoleNotFound;
+use Crisu83\Overseer\Contract\Role;
 
 class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
 {

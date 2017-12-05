@@ -1,6 +1,6 @@
 <?php namespace Crisu83\Overseer\Runtime;
 
-use Crisu83\Overseer\Entity\Permission;
+use Crisu83\Overseer\Contract\Permission;
 
 class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
 {

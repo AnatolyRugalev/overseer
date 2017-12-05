@@ -1,7 +1,6 @@
 <?php namespace Crisu83\Overseer\Storage;
 
-use Crisu83\Overseer\Entity\Assignment;
-use Crisu83\Overseer\Entity\Subject;
+use Crisu83\Overseer\Contract\Assignment;
 
 interface AssignmentStorage
 {
@@ -19,7 +18,7 @@ interface AssignmentStorage
 
 
     /**
-     * @param mixed  $subjectId
+     * @param mixed $subjectId
      * @param string $subjectName
      *
      * @return Assignment

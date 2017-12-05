@@ -1,5 +1,6 @@
 <?php namespace Crisu83\Overseer\Doctrine\Storage;
 
+use Crisu83\Overseer\Contract\Assignment as AssignmentContract;
 use Crisu83\Overseer\Entity\Assignment;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -20,18 +21,19 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
 
     /**
      * @param EntityManager $entityManager
+     * @param string $entityClass
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $entityClass = Assignment::class)
     {
         $this->entityManager = $entityManager;
-        $this->repository    = $this->entityManager->getRepository(Assignment::class);
+        $this->repository = $this->entityManager->getRepository($entityClass);
     }
 
 
     /**
      * @inheritdoc
      */
-    public function saveAssignment(Assignment $assignment)
+    public function saveAssignment(AssignmentContract $assignment)
     {
         $this->entityManager->persist($assignment);
         $this->entityManager->flush($assignment);
@@ -41,7 +43,7 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
     /**
      * @inheritdoc
      */
-    public function deleteAssignment(Assignment $assignment)
+    public function deleteAssignment(AssignmentContract $assignment)
     {
         $this->entityManager->remove($assignment);
         $this->entityManager->flush($assignment);

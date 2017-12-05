@@ -1,4 +1,4 @@
-<?php namespace Crisu83\Overseer\Entity;
+<?php namespace Crisu83\Overseer\Contract;
 
 interface Subject
 {

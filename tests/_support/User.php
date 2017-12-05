@@ -1,6 +1,6 @@
 <?php
 
-use Crisu83\Overseer\Entity\Subject;
+use Crisu83\Overseer\Contract\Subject;
 
 class User implements Subject
 {

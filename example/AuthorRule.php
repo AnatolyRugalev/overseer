@@ -1,9 +1,8 @@
 <?php
 
-use Crisu83\Overseer\Entity\Permission;
-use Crisu83\Overseer\Entity\Resource;
-use Crisu83\Overseer\Entity\Rule;
-use Crisu83\Overseer\Entity\Subject;
+use Crisu83\Overseer\Contract\Resource as ResourceContract;
+use Crisu83\Overseer\Contract\Rule;
+use Crisu83\Overseer\Contract\Subject;
 
 class AuthorRule implements Rule
 {
@@ -11,9 +10,9 @@ class AuthorRule implements Rule
     /**
      * @inheritdoc
      */
-    public function evaluate(Subject $subject, Resource $resource, array $params)
+    public function evaluate(Subject $subject, ResourceContract $resource, array $params)
     {
-        if (!$resource instanceof Book) {
+        if (!$resource instanceof HasAuthor) {
             return false;
         }
 

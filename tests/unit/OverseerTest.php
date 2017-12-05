@@ -19,7 +19,7 @@ class OverseerTest extends \Codeception\TestCase\Test
     {
         parent::_before();
 
-        $roleStorage       = new RoleStorage;
+        $roleStorage = new RoleStorage;
         $permissionStorage = new PermissionStorage;
         $assignmentStorage = new AssignmentStorage;
 

@@ -1,8 +1,9 @@
 <?php namespace Crisu83\Overseer\Entity;
 
+use Crisu83\Overseer\Contract\Role as RoleContract;
 use Crisu83\Overseer\Exception\PropertyNotValid;
 
-class Role
+class Role implements RoleContract
 {
 
     /**
@@ -25,8 +26,8 @@ class Role
      * Permission constructor.
      *
      * @param string $roleName
-     * @param array  $roles
-     * @param array  $permissions
+     * @param array $roles
+     * @param array $permissions
      */
     public function __construct($roleName, array $roles = [], array $permissions = [])
     {

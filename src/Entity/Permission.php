@@ -1,8 +1,12 @@
 <?php namespace Crisu83\Overseer\Entity;
 
+use Crisu83\Overseer\Contract\Permission as PermissionContract;
+use Crisu83\Overseer\Contract\Resource as ResourceContract;
+use Crisu83\Overseer\Contract\Rule;
+use Crisu83\Overseer\Contract\Subject;
 use Crisu83\Overseer\Exception\PropertyNotValid;
 
-class Permission
+class Permission implements PermissionContract
 {
 
     /**
@@ -20,13 +24,12 @@ class Permission
      */
     private $rules;
 
-
     /**
      * Permission constructor.
      *
-     * @param string      $permissionName
+     * @param string $permissionName
      * @param string|null $resourceName
-     * @param array       $rules
+     * @param array $rules
      */
     public function __construct($permissionName, $resourceName = null, array $rules = [])
     {
@@ -34,7 +37,6 @@ class Permission
         $this->setResourceName($resourceName);
         $this->setRules($rules);
     }
-
 
     /**
      * @param string $ruleName
@@ -49,7 +51,6 @@ class Permission
         $this->rules[] = $ruleName;
     }
 
-
     /**
      * @return bool
      */
@@ -57,7 +58,6 @@ class Permission
     {
         return !empty($this->rules);
     }
-
 
     /**
      * @param string $ruleName
@@ -69,34 +69,31 @@ class Permission
         return in_array($ruleName, $this->rules);
     }
 
-
     /**
-     * @param Resource $resource
+     * @param ResourceContract $resource
      *
      * @return bool
      */
-    public function appliesToResource(Resource $resource)
+    public function appliesToResource(ResourceContract $resource)
     {
         return $this->resourceName === $resource->getResourceName();
     }
 
-
     /**
-     * @param Subject  $subject
-     * @param Resource $resource
-     * @param array    $params
+     * @param Subject $subject
+     * @param ResourceContract $resource
+     * @param array $params
      *
      * @return bool
      */
-    public function evaluate(Subject $subject, Resource $resource, array $params)
+    public function evaluate(Subject $subject, ResourceContract $resource, array $params)
     {
         if (!$this->hasRules()) {
             return true;
         }
 
         foreach ($this->rules as $className) {
-            /** @var Rule $rule */
-            $rule = new $className;
+            $rule = $this->instantiateRule($className);
             if (!$rule->evaluate($subject, $resource, $params)) {
                 return false;
             }
@@ -105,6 +102,14 @@ class Permission
         return true;
     }
 
+    /**
+     * @param string $class
+     * @return Rule
+     */
+    protected function instantiateRule($class)
+    {
+        return new $class;
+    }
 
     /**
      * @return string
@@ -114,9 +119,9 @@ class Permission
         return $this->name;
     }
 
-
     /**
      * @param string $name
+     * @throws PropertyNotValid
      */
     private function setName($name)
     {
@@ -127,7 +132,6 @@ class Permission
         $this->name = $name;
     }
 
-
     /**
      * @param string $resourceName
      */
@@ -135,7 +139,6 @@ class Permission
     {
         $this->resourceName = $resourceName;
     }
-
 
     /**
      * @param Rule[] $rules

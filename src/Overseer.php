@@ -1,17 +1,18 @@
 <?php namespace Crisu83\Overseer;
 
-use Crisu83\Overseer\Entity\Assignment;
-use Crisu83\Overseer\Entity\Permission;
-use Crisu83\Overseer\Entity\Resource;
-use Crisu83\Overseer\Entity\Role;
-use Crisu83\Overseer\Entity\Subject;
+use Crisu83\Overseer\Contract\Assignment;
+use Crisu83\Overseer\Contract\Overseer as OverseerContract;
+use Crisu83\Overseer\Contract\Permission;
+use Crisu83\Overseer\Contract\Resource as ResourceContract;
+use Crisu83\Overseer\Contract\Role;
+use Crisu83\Overseer\Contract\Subject;
 use Crisu83\Overseer\Exception\PermissionNotFound;
 use Crisu83\Overseer\Exception\RoleNotFound;
 use Crisu83\Overseer\Storage\AssignmentStorage;
 use Crisu83\Overseer\Storage\PermissionStorage;
 use Crisu83\Overseer\Storage\RoleStorage;
 
-class Overseer
+class Overseer implements OverseerContract
 {
 
     /**
@@ -33,7 +34,7 @@ class Overseer
     /**
      * Overseer constructor.
      *
-     * @param RoleStorage       $roleStorage
+     * @param RoleStorage $roleStorage
      * @param PermissionStorage $permissionStorage
      * @param AssignmentStorage $assignmentStorage
      */
@@ -42,7 +43,7 @@ class Overseer
         PermissionStorage $permissionStorage,
         AssignmentStorage $assignmentStorage
     ) {
-        $this->roleStorage       = $roleStorage;
+        $this->roleStorage = $roleStorage;
         $this->permissionStorage = $permissionStorage;
         $this->assignmentStorage = $assignmentStorage;
     }
@@ -135,14 +136,14 @@ class Overseer
 
 
     /**
-     * @param Subject       $subject
-     * @param Resource|null $resource
-     * @param array         $params
+     * @param Subject $subject
+     * @param ResourceContract|null $resource
+     * @param array $params
      *
      * @return array
      * @throws PermissionNotFound
      */
-    public function getPermissions(Subject $subject, Resource $resource = null, array $params = [])
+    public function getPermissions(Subject $subject, ResourceContract $resource = null, array $params = [])
     {
         $permissions = [];
 
@@ -163,15 +164,19 @@ class Overseer
 
 
     /**
-     * @param string        $permissionName
-     * @param Subject       $subject
-     * @param Resource|null $resource
-     * @param array         $params
+     * @param string $permissionName
+     * @param Subject $subject
+     * @param ResourceContract|null $resource
+     * @param array $params
      *
      * @return bool
      */
-    public function hasPermission($permissionName, Subject $subject, Resource $resource = null, array $params = [])
-    {
+    public function hasPermission(
+        $permissionName,
+        Subject $subject,
+        ResourceContract $resource = null,
+        array $params = []
+    ) {
         return in_array($permissionName, $this->getPermissions($subject, $resource, $params));
     }
 
@@ -287,14 +292,18 @@ class Overseer
 
     /**
      * @param Permission $permission
-     * @param Subject    $subject
-     * @param Resource   $resource
-     * @param array      $params
+     * @param Subject $subject
+     * @param ResourceContract $resource
+     * @param array $params
      *
      * @return bool
      */
-    protected function evaluatePermission(Permission $permission, Subject $subject, Resource $resource, array $params)
-    {
+    protected function evaluatePermission(
+        Permission $permission,
+        Subject $subject,
+        ResourceContract $resource,
+        array $params
+    ) {
         if (!$permission->appliesToResource($resource)) {
             return false;
         }

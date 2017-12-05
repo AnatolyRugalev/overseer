@@ -22,12 +22,12 @@ class Builder
      * Builder constructor.
      *
      * @param Overseer $overseer
-     * @param array    $config
+     * @param array $config
      */
     public function __construct(Overseer $overseer, array $config)
     {
         $this->overseer = $overseer;
-        $this->config   = $config;
+        $this->config = $config;
     }
 
 

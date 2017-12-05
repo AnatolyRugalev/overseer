@@ -12,7 +12,7 @@ use Crisu83\Overseer\Runtime\AssignmentStorage;
 use Crisu83\Overseer\Runtime\PermissionStorage;
 use Crisu83\Overseer\Runtime\RoleStorage;
 
-$roleStorage       = new RoleStorage;
+$roleStorage = new RoleStorage;
 $permissionStorage = new PermissionStorage;
 $assignmentStorage = new AssignmentStorage;
 

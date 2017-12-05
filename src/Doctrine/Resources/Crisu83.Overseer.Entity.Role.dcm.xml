@@ -7,8 +7,8 @@
     <entity name="Crisu83\Overseer\Entity\Role" table="rbac_roles">
 
         <id name="name" type="string"/>
-        <field name="roles" type="json_array" />
-        <field name="permissions" type="json_array" />
+        <field name="roles" type="json_array"/>
+        <field name="permissions" type="json_array"/>
 
     </entity>
 

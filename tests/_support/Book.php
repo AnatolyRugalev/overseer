@@ -1,6 +1,6 @@
 <?php
 
-use Crisu83\Overseer\Entity\Resource;
+use Crisu83\Overseer\Contract\Resource;
 
 class Book implements Resource
 {
@@ -18,7 +18,7 @@ class Book implements Resource
      */
     public function __construct($authorId)
     {
-        $this->authorId = (string) $authorId;
+        $this->authorId = (string)$authorId;
     }
 
 
