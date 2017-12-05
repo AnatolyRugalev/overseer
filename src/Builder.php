@@ -10,12 +10,17 @@ class Builder
     /**
      * @var Overseer
      */
-    private $overseer;
+    protected $overseer;
 
     /**
      * @var array
      */
-    private $config;
+    protected $config;
+
+    /**
+     * @var bool
+     */
+    protected $buildAssignments;
 
 
     /**
@@ -23,11 +28,13 @@ class Builder
      *
      * @param Overseer $overseer
      * @param array $config
+     * @param bool $buildAssignments
      */
-    public function __construct(Overseer $overseer, array $config)
+    public function __construct(Overseer $overseer, array $config, $buildAssignments = true)
     {
         $this->overseer = $overseer;
         $this->config = $config;
+        $this->buildAssignments = $buildAssignments;
     }
 
 
@@ -37,32 +44,23 @@ class Builder
     public function build()
     {
         $this->overseer->clearRoles();
-
-        if (isset($this->config['roles'])) {
-            $this->saveRoles($this->config['roles']);
-        }
+        $this->saveRoles();
 
         $this->overseer->clearPermissions();
+        $this->savePermissions();
 
-        if (isset($this->config['permissions'])) {
-            $this->savePermissions($this->config['permissions']);
-        }
-
-        $this->overseer->clearAssignments();
-
-        if (isset($this->config['assignments'])) {
-            $this->saveAssignments($this->config['assignments']);
+        if ($this->buildAssignments) {
+            $this->overseer->clearAssignments();
+            $this->saveAssignments();
         }
     }
 
 
-    /**
-     * @param array $config
-     */
-    protected function saveRoles(array $config)
+    protected function saveRoles()
     {
+        $config = isset($this->config['roles']) ? $this->config['roles'] : [];
         foreach ($config as $roleName => $roleConfig) {
-            $this->overseer->saveRole(new Role(
+            $this->overseer->saveRole($this->createRole(
                 $roleName,
                 isset($roleConfig['inherits']) ? $roleConfig['inherits'] : [],
                 isset($roleConfig['permissions']) ? $roleConfig['permissions'] : []
@@ -70,14 +68,11 @@ class Builder
         }
     }
 
-
-    /**
-     * @param array $config
-     */
-    protected function savePermissions(array $config)
+    protected function savePermissions()
     {
+        $config = isset($this->config['permissions']) ? $this->config['permissions'] : [];
         foreach ($config as $permissionName => $permissionConfig) {
-            $this->overseer->savePermission(new Permission(
+            $this->overseer->savePermission($this->createPermission(
                 $permissionName,
                 isset($permissionConfig['resource']) ? $permissionConfig['resource'] : null,
                 isset($permissionConfig['rules']) ? $permissionConfig['rules'] : []
@@ -85,18 +80,30 @@ class Builder
         }
     }
 
-
-    /**
-     * @param array $config
-     */
-    protected function saveAssignments(array $config)
+    protected function saveAssignments()
     {
+        $config = isset($this->config['assignments']) ? $this->config['assignments'] : [];
         foreach ($config as $subjectId => $assignmentConfig) {
-            $this->overseer->saveAssignment(new Assignment(
+            $this->overseer->saveAssignment($this->createAssignment(
                 $subjectId,
                 isset($assignmentConfig['subject_name']) ? $assignmentConfig['subject_name'] : null,
                 isset($assignmentConfig['roles']) ? $assignmentConfig['roles'] : []
             ));
         }
+    }
+
+    protected function createRole($name, array $roles, array $permissions)
+    {
+        return new Role($name, $roles, $permissions);
+    }
+
+    protected function createPermission($name, $resourceName, array $rules)
+    {
+        return new Permission($name, $resourceName, $rules);
+    }
+
+    protected function createAssignment($subjectId, $subjectName, array $roles)
+    {
+        return new Assignment($subjectId, $subjectName, $roles);
     }
 }
