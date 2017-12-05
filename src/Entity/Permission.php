@@ -12,17 +12,17 @@ class Permission implements PermissionContract
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $resourceName;
+    protected $resourceName;
 
     /**
      * @var array
      */
-    private $rules;
+    protected $rules;
 
     /**
      * Permission constructor.
@@ -64,7 +64,7 @@ class Permission implements PermissionContract
      *
      * @return bool
      */
-    private function hasRule($ruleName)
+    protected function hasRule($ruleName)
     {
         return in_array($ruleName, $this->rules);
     }
@@ -123,7 +123,7 @@ class Permission implements PermissionContract
      * @param string $name
      * @throws PropertyNotValid
      */
-    private function setName($name)
+    protected function setName($name)
     {
         if (empty($name)) {
             throw new PropertyNotValid('Permission name cannot be empty.');
@@ -135,7 +135,7 @@ class Permission implements PermissionContract
     /**
      * @param string $resourceName
      */
-    private function setResourceName($resourceName)
+    protected function setResourceName($resourceName)
     {
         $this->resourceName = $resourceName;
     }
@@ -143,7 +143,7 @@ class Permission implements PermissionContract
     /**
      * @param Rule[] $rules
      */
-    private function setRules($rules)
+    protected function setRules($rules)
     {
         $this->rules = $rules;
     }

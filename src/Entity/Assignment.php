@@ -9,17 +9,17 @@ class Assignment implements AssignmentContract
     /**
      * @var string
      */
-    private $subjectId;
+    protected $subjectId;
 
     /**
      * @var string
      */
-    private $subjectName;
+    protected $subjectName;
 
     /**
      * @var array
      */
-    private $roles;
+    protected $roles;
 
 
     /**
@@ -108,7 +108,7 @@ class Assignment implements AssignmentContract
      *
      * @return bool
      */
-    private function hasRole($roleName)
+    protected function hasRole($roleName)
     {
         return in_array($roleName, $this->roles);
     }
@@ -119,7 +119,7 @@ class Assignment implements AssignmentContract
      *
      * @throws PropertyNotValid
      */
-    private function setSubjectId($subjectId)
+    protected function setSubjectId($subjectId)
     {
         if (empty($subjectId)) {
             throw new PropertyNotValid('Assignment subject ID cannot be empty.');
@@ -134,7 +134,7 @@ class Assignment implements AssignmentContract
      *
      * @throws PropertyNotValid
      */
-    private function setSubjectName($subjectName)
+    protected function setSubjectName($subjectName)
     {
         if (empty($subjectName)) {
             throw new PropertyNotValid('Assignment subject name cannot be empty.');
@@ -147,7 +147,7 @@ class Assignment implements AssignmentContract
     /**
      * @param array $roles
      */
-    private function setRoles(array $roles)
+    protected function setRoles(array $roles)
     {
         $this->roles = $roles;
     }

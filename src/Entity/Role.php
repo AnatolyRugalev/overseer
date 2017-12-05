@@ -9,17 +9,17 @@ class Role implements RoleContract
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var array
      */
-    private $roles;
+    protected $roles;
 
     /**
      * @var array
      */
-    private $permissions;
+    protected $permissions;
 
 
     /**
@@ -129,7 +129,7 @@ class Role implements RoleContract
      *
      * @return bool
      */
-    private function hasRole($roleName)
+    protected function hasRole($roleName)
     {
         return in_array($roleName, $this->roles);
     }
@@ -140,7 +140,7 @@ class Role implements RoleContract
      *
      * @return bool
      */
-    private function hasPermission($permissionName)
+    protected function hasPermission($permissionName)
     {
         return in_array($permissionName, $this->permissions);
     }
@@ -151,7 +151,7 @@ class Role implements RoleContract
      *
      * @throws PropertyNotValid
      */
-    private function setName($name)
+    protected function setName($name)
     {
         if (empty($name)) {
             throw new PropertyNotValid('Role name cannot be empty.');
@@ -164,7 +164,7 @@ class Role implements RoleContract
     /**
      * @param array $roles
      */
-    private function setRoles($roles)
+    protected function setRoles($roles)
     {
         $this->roles = $roles;
     }
@@ -173,7 +173,7 @@ class Role implements RoleContract
     /**
      * @param array $permissions
      */
-    private function setPermissions($permissions)
+    protected function setPermissions($permissions)
     {
         $this->permissions = $permissions;
     }
