@@ -14,10 +14,14 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
     private $entityManager;
 
     /**
+     * @var ClassMetadata
+     */
+    private $metadata;
+
+    /**
      * @var EntityRepository
      */
     private $repository;
-
 
     /**
      * @param EntityManager $entityManager
@@ -26,9 +30,9 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
     public function __construct(EntityManager $entityManager, $entityClass = Assignment::class)
     {
         $this->entityManager = $entityManager;
+        $this->metadata = $this->entityManager->getClassMetadata($entityClass);
         $this->repository = $this->entityManager->getRepository($entityClass);
     }
-
 
     /**
      * @inheritdoc
@@ -39,7 +43,6 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
         $this->entityManager->flush($assignment);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -49,7 +52,6 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
         $this->entityManager->flush($assignment);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -58,13 +60,12 @@ class AssignmentStorage implements \Crisu83\Overseer\Storage\AssignmentStorage
         return $this->repository->findOneBy(['subjectId' => $subjectId, 'subjectName' => $subjectName]);
     }
 
-
     /**
      * @inheritdoc
      */
     public function clearAssignments()
     {
         $conn = $this->entityManager->getConnection();
-        $conn->executeQuery('TRUNCATE `rbac_assignments`');
+        $conn->executeQuery("TRUNCATE {$this->metadata->table['name']}");
     }
 }

@@ -4,6 +4,7 @@ use Crisu83\Overseer\Entity\Role;
 use Crisu83\Overseer\Contract\Role as RoleContract;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
 {
@@ -12,6 +13,11 @@ class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
      * @var EntityManager
      */
     private $entityManager;
+
+    /**
+     * @var ClassMetadata
+     */
+    private $metadata;
 
     /**
      * @var EntityRepository
@@ -25,6 +31,7 @@ class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
     public function __construct(EntityManager $entityManager, $entityClass = Role::class)
     {
         $this->entityManager = $entityManager;
+        $this->metadata = $this->entityManager->getClassMetadata($entityClass);
         $this->repository = $this->entityManager->getRepository($entityClass);
     }
 
@@ -51,6 +58,6 @@ class RoleStorage implements \Crisu83\Overseer\Storage\RoleStorage
     public function clearRoles()
     {
         $conn = $this->entityManager->getConnection();
-        $conn->executeQuery('TRUNCATE `rbac_roles`');
+        $conn->executeQuery("TRUNCATE {$this->metadata->table['name']}");
     }
 }

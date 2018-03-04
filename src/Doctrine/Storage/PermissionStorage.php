@@ -14,6 +14,11 @@ class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
     private $entityManager;
 
     /**
+     * @var ClassMetadata
+     */
+    private $metadata;
+
+    /**
      * @var EntityRepository
      */
     private $repository;
@@ -25,9 +30,9 @@ class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
     public function __construct(EntityManager $entityManager, $entityClass = Permission::class)
     {
         $this->entityManager = $entityManager;
+        $this->metadata = $this->entityManager->getClassMetadata($entityClass);
         $this->repository = $this->entityManager->getRepository($entityClass);
     }
-
 
     /**
      * @inheritdoc
@@ -38,7 +43,6 @@ class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
         $this->entityManager->flush($permission);
     }
 
-
     /**
      * @@inheritdoc
      */
@@ -47,13 +51,12 @@ class PermissionStorage implements \Crisu83\Overseer\Storage\PermissionStorage
         return $this->repository->findOneBy(['name' => $name]);
     }
 
-
     /**
      * @inheritdoc
      */
     public function clearPermissions()
     {
         $conn = $this->entityManager->getConnection();
-        $conn->executeQuery('TRUNCATE `rbac_permissions`');
+        $conn->executeQuery("TRUNCATE {$this->metadata->table['name']}");
     }
 }
